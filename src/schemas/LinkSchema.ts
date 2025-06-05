@@ -8,3 +8,4 @@ export const createLinkSchema = z.object({
   username: z.string().min(3, "Username precisa ter pelo menos 3 caracteres!"),
 });
 
+export type CreateLinkSchema = z.infer<typeof createLinkSchema>;
