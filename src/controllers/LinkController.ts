@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { createLinkSchema } from "../schemas/LinkSchema";
 import { links } from "../database/links";
+import { prisma } from "../database/prismaClient";
 
 export const LinkController = {
-  createLink: (req: Request, res: Response) => {
-    // VALIDAÇÃO DOS DADOS
+  createLink: async (req: Request, res: Response) => {
     const validation = createLinkSchema.safeParse(req.body);
 
     if (!validation.success) {
@@ -14,21 +14,21 @@ export const LinkController = {
       return;
     }
 
-    // USO DOS DADOS
     const { name, whatsapp, username } = validation.data;
 
-    links.push({ name, whatsapp, username });
-
-    res.status(201).json({
-      message: "Link bio criado com sucesso",
+    const newLink = await prisma.link.create({
       data: {
         name,
         whatsapp,
         username,
       },
     });
-  },
 
+    res.status(201).json({
+      message: "Link bio criado com sucesso",
+      data: newLink,
+    });
+  },
 
   getLinks: (req: Request, res: Response) => {
     res.status(200).json({
