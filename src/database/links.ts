@@ -1,5 +1,6 @@
-import { CreateLinkSchema } from "../schemas/LinkSchema";
+import z from "zod";
+import { createLinkSchema } from "../schemas/LinkSchema";
 
-export const links: CreateLinkSchema[] = [];
+type Link = z.infer<typeof createLinkSchema>;
 
-console.log(links);
+export const links: Link[] = [];

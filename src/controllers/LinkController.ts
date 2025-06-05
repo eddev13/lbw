@@ -29,7 +29,11 @@ export const LinkController = {
     });
   },
 
+
   getLinks: (req: Request, res: Response) => {
-    res.json(links);
+    res.status(200).json({
+      message: "Lista de Links",
+      data: links,
+    });
   },
 };
