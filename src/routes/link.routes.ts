@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { LinkController } from "../controllers/LinkController";
 
 const router = Router();
