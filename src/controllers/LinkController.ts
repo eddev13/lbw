@@ -30,11 +30,14 @@ export const LinkController = {
       });
       return;
     } catch (error) {
+      console.error(error);
       res.status(500).json({
         error: "Erro interno no servidor",
       });
+      return
     }
   },
+
   getLinks: async (req: Request, res: Response) => {
     try {
       const links = await prisma.link.findMany();
@@ -43,6 +46,28 @@ export const LinkController = {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Erro ao listar links" });
+      return
+    }
+  },
+
+  getLinkByUsername: async (req: Request, res: Response) => {
+    const { username } = req.params;
+    try {
+      const link = await prisma.link.findUnique({
+        where: { username },
+      });
+
+      if (!link) {
+        res.status(404).json({ error: "Link não encontrado" });
+        return;
+      }
+
+      res.status(200).json({ data: link });
+      return;
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erro ao buscar Link" });
+      return
     }
   },
 };
