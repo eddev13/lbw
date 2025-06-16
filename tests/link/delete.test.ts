@@ -1,14 +1,5 @@
 import request from "supertest";
 import app from "../../src/app";
-import { prisma } from "../../src/database/prismaClient";
-
-beforeAll(async () => {
-  await prisma.link.deleteMany();
-});
-
-afterAll(async () => {
-  await prisma.$disconnect();
-});
 
 const mockLink = {
   name: "Usuário Teste",
@@ -17,6 +8,10 @@ const mockLink = {
 };
 
 describe("LinkController", () => {
+  beforeEach(async () => {
+    const response = await request(app).post("/api/link").send(mockLink);
+  });
+
   it("DEVE DELETAR UM LINK EXISTENTE", async () => {
     const response = await request(app).delete(
       `/api/link/${mockLink.username}`

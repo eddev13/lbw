@@ -1,14 +1,5 @@
 import request from "supertest";
 import app from "../../src/app";
-import { prisma } from "../../src/database/prismaClient";
-
-beforeAll(async () => {
-  await prisma.link.deleteMany();
-});
-
-afterAll(async () => {
-  await prisma.$disconnect();
-});
 
 const mockLink = {
   name: "Usuário Teste",
@@ -22,6 +13,10 @@ describe("LinkController", () => {
     whatsapp: "1198888888",
     username: "useratualizado",
   };
+
+  beforeEach(async () => {
+    const response = await request(app).post("/api/link").send(mockLink);
+  });
 
   it("DEVE ATUALIZAR UM LINK EXISTENTE", async () => {
     const response = await request(app)
