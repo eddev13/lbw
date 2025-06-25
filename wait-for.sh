@@ -9,4 +9,6 @@ done
 
 echo "MySQL está pronto. Iniciando a API..."
 
-exec "$@"
+npx prisma migrate deploy &&
+  npx prisma generate &&
+  exec "$@"
