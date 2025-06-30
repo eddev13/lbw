@@ -2,16 +2,16 @@
 FROM node:18-alpine
 
 # Define o diretório dentro do container
-WORKDIR /app
+WORKDIR /api/app
 
 # Copia os arquivos package.json e package-lock.json
 COPY package*.json ./
 
 # Copiar o script de espera
-COPY wait-for.sh /app/wait-for.sh
+COPY wait-for.sh /api/app/wait-for.sh
 
 # Deixar o script executável
-RUN chmod +x /app/wait-for.sh
+RUN chmod +x /api/app/wait-for.sh
 
 # Instala as dependências
 RUN npm install
@@ -26,4 +26,4 @@ RUN npx prisma generate
 EXPOSE 3000
 
 # Comando para rodar a aplicação
-CMD ["/app/wait-for.sh", "npm", "run", "dev"]
+CMD ["/api/app/wait-for.sh", "npm", "run", "dev"]
